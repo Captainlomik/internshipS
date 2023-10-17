@@ -1,13 +1,14 @@
 <script>
     let amount = 0.0;
-    let convertFrom = "RUB";
+    let convertFrom = "";
     let finalAmount = 0;
     let convertTo = "";
+    let rate = 0
 
     let currencyList = [
-        { name: "USD", desc: "US Dollar" },
-        { name: "EUR", desc: "Euro" },
-        { name: "INR", desc: "Indian Rupee" },
+        { name: "USD", desc: "Американский доллар" },
+        { name: "EUR", desc: "Евро" },
+        { name: "RUB", desc: "Рубль" },
     ];
 
     async function convertCurrency() {
@@ -19,8 +20,7 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
-                let rate = data.conversion_rate;
+                rate = data.conversion_rate;
                 finalAmount = rate * amount;
             });
     }
@@ -34,8 +34,8 @@
             <p>Из</p>
             <input
                 type="number"
-                name="currencyAmount"
-                placeholder="Enter Amount"
+                name="value1"
+                placeholder="Значение 1"
                 bind:value={amount}
             />
             <select class="px-4 py-3 rounded-full" bind:value={convertFrom}>
@@ -48,7 +48,12 @@
         </div>
         <div class="currancy__main-to">
             <p>Перевести в</p>
-
+            <input
+            type="number"
+            name="value2"
+            placeholder="Значение 2"
+            bind:value={rate}
+        />
             <select
                 class="px-4 py-3 rounded-full"
                 bind:value={convertTo}
@@ -62,9 +67,7 @@
             </select>
         </div>
         <div class="currancy__main-result">
-            <p> {amount} {convertFrom} equals {finalAmount} {convertTo}</p>
+            <p>{amount} {convertFrom} равен {finalAmount} {convertTo}</p>
         </div>
     </div>
 </div>
-
-
