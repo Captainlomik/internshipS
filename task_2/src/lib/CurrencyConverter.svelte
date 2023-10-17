@@ -1,9 +1,11 @@
 <script>
+    // @ts-nocheck
+
     let amount = 0.0;
     let convertFrom = "";
     let finalAmount = 0;
     let convertTo = "";
-    let rate = 0
+    let rate = 0.0;
 
     let currencyList = [
         { name: "USD", desc: "Американский доллар" },
@@ -21,8 +23,18 @@
             })
             .then((data) => {
                 rate = data.conversion_rate;
-                finalAmount = rate * amount;
             });
+    }
+
+    // @ts-ignore
+    function getAmount(num) {
+        amount = +num;
+        finalAmount = rate * amount;
+    }
+
+    function getfinalAmount(num) {
+        finalAmount = +num;
+        amount = finalAmount / amount;
     }
 </script>
 
@@ -36,7 +48,8 @@
                 type="number"
                 name="value1"
                 placeholder="Значение 1"
-                bind:value={amount}
+                value={amount}
+                on:input={(e) => getAmount(e.target.value)}
             />
             <select class="px-4 py-3 rounded-full" bind:value={convertFrom}>
                 {#each currencyList as cl}
@@ -49,11 +62,12 @@
         <div class="currancy__main-to">
             <p>Перевести в</p>
             <input
-            type="number"
-            name="value2"
-            placeholder="Значение 2"
-            bind:value={rate}
-        />
+                type="number"
+                name="value2"
+                placeholder="Значение 2"
+                value={finalAmount}
+                on:input={(e) => getfinalAmount(e.target.value)}
+            />
             <select
                 class="px-4 py-3 rounded-full"
                 bind:value={convertTo}
