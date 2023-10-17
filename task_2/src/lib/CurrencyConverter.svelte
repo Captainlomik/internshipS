@@ -21,19 +21,18 @@
             })
             .then((data) => {
                 rate = data.conversion_rate;
-                finalAmount = rate * amount
+                finalAmount = Math.round(rate * amount * 100) / 100;
             });
     }
 
     function getAmount(num: number) {
         amount = +num;
-
-        if (rate !== 0) finalAmount = rate * amount;
+        if (rate !== 0) finalAmount = Math.round(rate * amount * 100) / 100;
     }
 
     function getfinalAmount(num: number) {
         finalAmount = +num;
-        if (rate !== 0) amount = finalAmount / rate;
+        if (rate !== 0) amount = Math.round((finalAmount / rate) * 100) / 100;
     }
 </script>
 
@@ -51,9 +50,10 @@
                 value={amount}
                 on:input={(e) => getAmount(e.target.value)}
             />
-            <select class="from__select" 
-            bind:value={convertFrom}
-            on:change={convertCurrency}
+            <select
+                class="from__select"
+                bind:value={convertFrom}
+                on:change={convertCurrency}
             >
                 {#each currencyList as cl}
                     <option value={cl.name}>
