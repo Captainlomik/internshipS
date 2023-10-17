@@ -34,7 +34,7 @@
 
     function getfinalAmount(num) {
         finalAmount = +num;
-        amount = finalAmount / amount;
+        amount = finalAmount / rate;
     }
 </script>
 
